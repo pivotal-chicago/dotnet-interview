@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FraudAPI", "FraudAPI\FraudAPI.csproj", "{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomain", "FraudDomain\FraudDomain.csproj", "{3C3C7097-C390-49E9-96C5-15E394EF74DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomain", "FraudDomain\FraudDomain.csproj", "{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomainTests", "FraudDomainTests\FraudDomainTests.csproj", "{A2299361-110A-432D-86A4-DE6DC73EE701}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudAPITests", "XUnitTestProject1\FraudAPITests.csproj", "{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2299361-110A-432D-86A4-DE6DC73EE701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2299361-110A-432D-86A4-DE6DC73EE701}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2299361-110A-432D-86A4-DE6DC73EE701}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2299361-110A-432D-86A4-DE6DC73EE701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
