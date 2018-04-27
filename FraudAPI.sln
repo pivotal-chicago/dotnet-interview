@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudAPI", "FraudAPI\FraudAPI.csproj", "{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FraudAPI", "FraudAPI\FraudAPI.csproj", "{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomain", "FraudDomain\FraudDomain.csproj", "{3C3C7097-C390-49E9-96C5-15E394EF74DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomainTests", "FraudDomainTests\FraudDomainTests.csproj", "{A2299361-110A-432D-86A4-DE6DC73EE701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3C7097-C390-49E9-96C5-15E394EF74DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2299361-110A-432D-86A4-DE6DC73EE701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2299361-110A-432D-86A4-DE6DC73EE701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2299361-110A-432D-86A4-DE6DC73EE701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2299361-110A-432D-86A4-DE6DC73EE701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
