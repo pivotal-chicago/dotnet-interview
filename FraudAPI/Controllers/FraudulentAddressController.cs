@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FraudDomain.Model;
+using FraudDomain.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FraudAPI.Controllers
@@ -8,50 +9,46 @@ namespace FraudAPI.Controllers
     [Route("api/FraudulentAddress")]
     public class FraudulentAddressController : Controller
     {
-        private readonly FraudulentAddressContext context;
+        private readonly FraudulentAddressService service;
 
-        public FraudulentAddressController(FraudulentAddressContext context)
+        public FraudulentAddressController(FraudulentAddressService service)
         {
-            this.context = context;
+            this.service = service;
         }
 
         // GET: api/FraudulentAddress
         [HttpGet]
         public IEnumerable<FraudulentAddress> Get()
         {
-            return context.Addresses;
+            return service.All();
         }
 
         // GET: api/FraudulentAddress/5
         [HttpGet("{id}", Name = "Get")]
         public FraudulentAddress Get(int id)
         {
-            return context.Find<FraudulentAddress>(id);
+            return service.Find(id);
         }
         
         // POST: api/FraudulentAddress
         [HttpPost]
         public void Post([FromBody]FraudulentAddress value)
         {
-            context.Update(value);
-            context.SaveChanges();
+            service.Save(value);
         }
         
         // PUT: api/FraudulentAddress/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]FraudulentAddress value)
         {
-            context.Add(value);
-            context.SaveChanges();
+            service.Save(value);
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var address = context.Find(typeof(FraudulentAddress), id);
-            context.Remove(address);
-            context.SaveChanges();
+            service.Delete(id);
         }
     }
 }

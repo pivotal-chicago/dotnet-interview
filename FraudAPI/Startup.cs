@@ -1,4 +1,6 @@
-﻿using FraudDomain.Model;
+﻿using System;
+using FraudDomain.Model;
+using FraudDomain.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +23,8 @@ namespace FraudAPI
         {
             services.AddMvc();
 
-            services.AddDbContext<FraudulentAddressContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("FraudData")));
+            services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FraudData")));
+            services.AddTransient<FraudulentAddressService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

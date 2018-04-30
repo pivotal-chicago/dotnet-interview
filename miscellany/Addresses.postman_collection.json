@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "76e7a641-5bac-4a70-aa7f-cbf740a2f7ca",
+		"name": "Addresses",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Address",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    Street: \"South Michigan Avenue\",\r\n    StreetNumber: 220,\r\n    City: \"Chicago\",\r\n    State: \"IL\",\r\n    ZIP: \"60061\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/FraudulentAddress",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"FraudulentAddress"
+					]
+				},
+				"description": "Create a fraudulent address"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Addresses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:50480/api/FraudulentAddress/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50480",
+					"path": [
+						"api",
+						"FraudulentAddress",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Address",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:50480/api/FraudulentAddress/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50480",
+					"path": [
+						"api",
+						"FraudulentAddress",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete One Address",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:50480/api/FraudulentAddress/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "50480",
+					"path": [
+						"api",
+						"FraudulentAddress",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

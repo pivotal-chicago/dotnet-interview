@@ -17,7 +17,7 @@ namespace FraudDomain.Model
 
     public class FraudulentAddress
     {
-        public Int64 Id { get; set; }
+        public int Id { get; set; }
         public string Street { get; set; }
         public string StreetNumber { get; set; }
         public string City { get; set; }
