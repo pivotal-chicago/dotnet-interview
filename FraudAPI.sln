@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FraudAPI", "FraudAPI\FraudAPI.csproj", "{C29357ED-3BBF-4F06-A501-3D97DCB2C6DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudDomain", "FraudDomain\FraudDomain.csproj", "{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FraudDomain", "FraudDomain\FraudDomain.csproj", "{9FC7063C-93B9-4D5A-82E1-A8A7E78AEC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FraudAPITests", "XUnitTestProject1\FraudAPITests.csproj", "{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FraudTests", "XUnitTestProject1\FraudTests.csproj", "{890FEF3B-B03C-48F4-AA9D-B2C5E3D56FD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
