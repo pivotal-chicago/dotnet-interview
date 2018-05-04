@@ -1,20 +1,7 @@
 using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace FraudDomain.Model
-{   
-    public class FraudulentAddressContext : DbContext
-    {
-
-        public FraudulentAddressContext(DbContextOptions<FraudulentAddressContext> options)
-            : base(options)
-        {
-            
-        }
-
-        public DbSet<FraudulentAddress> Addresses { get; set; }
-    }
-
+{
     public class FraudulentAddress
     {
         public int Id { get; set; }
@@ -23,6 +10,7 @@ namespace FraudDomain.Model
         public string City { get; set; }
         public string State { get; set; }
         public string ZIP { get; set; }
+        public string CaseId { get; set; }
 
         protected bool Equals(FraudulentAddress other)
         {

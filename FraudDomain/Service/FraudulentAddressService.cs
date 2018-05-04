@@ -8,6 +8,7 @@ namespace FraudDomain.Service
     public class FraudulentAddressService
     {
         private readonly FraudulentAddressContext db;
+        public const string MatchingFieldAddress = "Address";
 
         public FraudulentAddressService(FraudulentAddressContext db)
         {
@@ -46,6 +47,37 @@ namespace FraudDomain.Service
         public IEnumerable<FraudulentAddress> All()
         {
             return db.Addresses.ToList();
+        }
+
+        public VisaFraudResponse IsFradulentVisaApplication(VisaApplicationRequest request)
+        {
+            if (request.Address == null)
+            {
+                throw new ArgumentNullException("Address");
+            }
+
+            FraudulentAddress address = db.Addresses
+                .FirstOrDefault(a => request.Address.Street.Equals(a.StreetNumber + " " + a.Street, StringComparison.CurrentCultureIgnoreCase)
+                    && request.Address.City.Equals(a.City, StringComparison.CurrentCultureIgnoreCase)
+                    && request.Address.ZIP.Equals(a.ZIP, StringComparison.CurrentCultureIgnoreCase)
+                    && request.Address.State.Equals(a.State, StringComparison.CurrentCultureIgnoreCase));
+
+            var response = new VisaFraudResponse
+            {
+                FraudStatus = FraudStatus.Clear,
+                ApplicationId = request.Id
+            };
+
+            if (address == null)
+            {
+                return response;
+            }
+
+            response.FraudStatus = FraudStatus.Matched;
+            response.CaseId = address.CaseId;
+            response.MatchingField = MatchingFieldAddress;
+
+            return response;
         }
     }
 }

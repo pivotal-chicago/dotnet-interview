@@ -12,7 +12,7 @@ namespace FraudAPI.Database
         {
             context.Database.EnsureCreated();
 
-            // Look for any students.
+            // Look for any data.
             if (context.Addresses.Any())
             {
                 return; // DB has been seeded
