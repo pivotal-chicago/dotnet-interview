@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FraudDomain.Model;
 
 namespace FraudAPI.Database
 {
-    public static class AddreessDataInitializer
+    public static class AddressDataInitializer
     {
         public static void Initialize(FraudulentAddressContext context)
         {
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Addresses.Any())
-            {
-                return; // DB has been seeded
-            }
+//            if (context.Addresses.Any())
+//            {
+//                return; // DB has been seeded
+//            }
 
             context.Add(new FraudulentAddress
             {
@@ -24,7 +21,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "SomeCaseId1"
             });
             context.Add(new FraudulentAddress
             {
@@ -32,7 +30,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "SomeCaseId2"
             });
             context.Add(new FraudulentAddress
             {
@@ -40,7 +39,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "SomeCaseId3"
             });
             context.SaveChanges();
         }

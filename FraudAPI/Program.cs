@@ -19,7 +19,10 @@ namespace FraudAPI
                 try
                 {
                     var context = services.GetRequiredService<FraudulentAddressContext>();
-                    AddreessDataInitializer.Initialize(context);
+                    
+                    // Updates the database schema if necessary.
+                    // Adds records, strictly for testing. 
+                    AddressDataInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FraudDomain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace FraudDomain.Service
 {
@@ -31,6 +32,23 @@ namespace FraudDomain.Service
         public FraudulentAddress Find(int addressId)
         {
             return db.Addresses.Find(addressId);
+        }
+
+        public FraudulentAddress MatchAddress(string Street,string City,string State,string ZIP)
+        {
+            return db.Addresses.AsNoTracking().FirstOrDefault(p => p.StreetNumber + " " + p.Street == Street
+                                                                   && p.City == City
+                                                                   && p.State == State
+                                                                   && p.ZIP == ZIP);
+        }
+
+        public FraudulentAddress MatchAddress(string StreetNumber,string Street,string City,string State,string ZIP)
+        {
+            return db.Addresses.AsNoTracking().FirstOrDefault(p => p.Street == Street
+                                                          && p.StreetNumber == StreetNumber
+                                                          && p.City == City
+                                                          && p.State == State
+                                                          && p.ZIP == ZIP);
         }
 
         public void Delete(int addressId)

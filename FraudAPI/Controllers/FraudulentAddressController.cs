@@ -34,6 +34,13 @@ namespace FraudAPI.Controllers
             service.Save(value);
         }
         
+        [HttpPost]
+        public void Match([FromBody]Applicant value)
+        {
+            var address = value.address;
+            service.MatchAddress(address.street, address.city, address.state, address.zip);
+        }
+        
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]FraudulentAddress value)
         {

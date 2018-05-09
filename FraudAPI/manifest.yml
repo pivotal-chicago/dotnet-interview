@@ -1,0 +1,11 @@
+﻿---
+applications:
+- name: fraud-api
+  host: fraud-api-stage
+  instances: 1
+  memory: 512M
+  disk_quota: 512M
+  buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack.git#v2.0.6
+  stack: cflinuxfs2
+  health-check-type: http
+  health-check-http-endpoint: /api/FraudulentAddress/health
