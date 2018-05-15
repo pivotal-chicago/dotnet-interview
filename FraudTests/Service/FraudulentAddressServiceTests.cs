@@ -60,7 +60,7 @@ namespace FraudDomain.Service
                 Assert.Contains(address3, fromDb);
             }
         }
-
+        
         [Fact]
         public void ShouldDeleteAnAddress()
         {
