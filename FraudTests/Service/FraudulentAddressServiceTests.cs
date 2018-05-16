@@ -15,7 +15,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = DefaultFraudulentAddress();
                 service.Save(address);
                 Assert.Equal(address, db.Addresses.Find(address.Id));
             }
@@ -29,7 +29,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = DefaultFraudulentAddress();
 
                 db.Addresses.Add(address);
                 db.SaveChanges();
@@ -46,11 +46,11 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address1 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address1 = DefaultFraudulentAddress();
                 db.Addresses.Add(address1);
-                var address2 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address2 = DefaultFraudulentAddress();
                 db.Addresses.Add(address2);
-                var address3 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address3 = DefaultFraudulentAddress();
                 db.Addresses.Add(address3);
                 db.SaveChanges();
 
@@ -69,7 +69,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = DefaultFraudulentAddress();
 
                 db.Addresses.Add(address);
                 db.SaveChanges();
@@ -90,7 +90,6 @@ namespace FraudDomain.Service
             {
                 var service = new FraudulentAddressService(db);
                 service.Delete(999);
-
             }
         }
 
@@ -102,7 +101,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var originalAddress = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var originalAddress = DefaultFraudulentAddress();
                 
                 service.Save(originalAddress);
                 originalAddress.StreetNumber = "1234W";
@@ -126,5 +125,13 @@ namespace FraudDomain.Service
             }
 
         }
+
+        
+        private static FraudulentAddress DefaultFraudulentAddress()
+        {
+            var address = new FraudulentAddress {City = "Bangor", State = "ME", ZIP = "09886"};
+            return address;
+        }
+
     }
 }

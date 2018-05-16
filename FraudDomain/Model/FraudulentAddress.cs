@@ -1,32 +1,15 @@
 using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace FraudDomain.Model
-{   
-    public class FraudulentAddressContext : DbContext
-    {
-
-        public FraudulentAddressContext(DbContextOptions<FraudulentAddressContext> options)
-            : base(options)
-        {
-            
-        }
-
-        public DbSet<FraudulentAddress> Addresses { get; set; }
-    }
-
-    public class FraudulentAddress
+{
+    public class FraudulentAddress : Address
     {
         public int Id { get; set; }
-        public string Street { get; set; }
-        public string StreetNumber { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string ZIP { get; set; }
+        public string CaseId { get; set; }
 
         protected bool Equals(FraudulentAddress other)
         {
-            return Id == other.Id && string.Equals(Street, other.Street) && string.Equals(StreetNumber, other.StreetNumber) && string.Equals(City, other.City) && string.Equals(State, other.State) && string.Equals(ZIP, other.ZIP);
+            return Id == other.Id && CaseId == other.CaseId && base.Equals(other);
         }
 
         public override bool Equals(object obj)
@@ -42,11 +25,7 @@ namespace FraudDomain.Model
             unchecked
             {
                 var hashCode = Id.GetHashCode();
-                hashCode = (hashCode * 397) ^ (Street != null ? Street.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (StreetNumber != null ? StreetNumber.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (City != null ? City.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (State != null ? State.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (ZIP != null ? ZIP.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ base.GetHashCode();
                 return hashCode;
             }
         }

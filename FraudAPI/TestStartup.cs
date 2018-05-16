@@ -1,4 +1,5 @@
-﻿using FraudAPI.Database;
+﻿using FraudAPI.Controllers;
+using FraudAPI.Database;
 using FraudDomain.Model;
 using FraudDomain.Service;
 using Microsoft.AspNetCore.Builder;
