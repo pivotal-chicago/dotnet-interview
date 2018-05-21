@@ -3,6 +3,7 @@ using FraudDomain.Model;
 using FraudDomain.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +24,10 @@ namespace FraudAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-//            services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlite("DataSource=:memory:"));
-            services.AddDbContext<FraudulentAddressContext>(options => options.UseInMemoryDatabase("TestDB"));
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlite(connection));
+//            services.AddDbContext<FraudulentAddressContext>(options => options.UseInMemoryDatabase("TestDB"));
             services.AddTransient<FraudulentAddressService>();
         }
 
