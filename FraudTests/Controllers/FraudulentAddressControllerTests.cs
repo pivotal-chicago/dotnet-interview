@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using FraudAPI;
 using FraudDomain.Model;
@@ -44,6 +46,30 @@ namespace FraudDomain.Controllers
             var body = await response.Content.ReadAsStringAsync();
             var address = JsonConvert.DeserializeObject<FraudulentAddress>(body);
             Assert.Equal(1, address.Id);
+        }
+
+        [Fact]
+        public async Task ShouldSaveaNewFraudulentAddress()
+        {
+            var fraudulentAddress = new FraudulentAddress
+            {
+                StreetNumber = "1234",
+                Street = "Sherman Avenue",
+                City = "Evanston",
+                State = "IL",
+                ZIP = "60201"
+            };
+
+            var json = JsonConvert.SerializeObject(fraudulentAddress);
+
+            var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Assert.Equal(3, TestStartup.FraudulentAddressContext.Addresses.Count());
+
+            var response = await _client.PostAsync("/api/FraudulentAddress", requestBody);
+            Assert.True(response.IsSuccessStatusCode, "Status code: " + response.StatusCode);
+
+            Assert.Equal(4, TestStartup.FraudulentAddressContext.Addresses.Count());
         }
     }
 

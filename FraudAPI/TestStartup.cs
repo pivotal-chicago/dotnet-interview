@@ -11,6 +11,8 @@ namespace FraudAPI
 {
     public class TestStartup
     {
+        public static FraudulentAddressContext FraudulentAddressContext;
+
         public TestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,6 +23,7 @@ namespace FraudAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+//            services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlite("DataSource=:memory:"));
             services.AddDbContext<FraudulentAddressContext>(options => options.UseInMemoryDatabase("TestDB"));
             services.AddTransient<FraudulentAddressService>();
         }
@@ -31,6 +34,7 @@ namespace FraudAPI
             app.UseMvc();
             var context = app.ApplicationServices.GetService<FraudulentAddressContext>();
             AddreessDataInitializer.Initialize(context);
+            FraudulentAddressContext = context;
         }
     }
 }
