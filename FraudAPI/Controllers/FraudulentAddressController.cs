@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FraudDomain.DTOs;
 using FraudDomain.Model;
 using FraudDomain.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -27,23 +28,30 @@ namespace FraudAPI.Controllers
         {
             return service.Find(id);
         }
-        
+
         [HttpPost]
-        public void Post([FromBody]FraudulentAddress value)
+        public void Post([FromBody] FraudulentAddress value)
         {
             service.Save(value);
         }
-        
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]FraudulentAddress value)
+        public void Put(int id, [FromBody] FraudulentAddress value)
         {
             service.Save(value);
         }
-        
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             service.Delete(id);
+        }
+
+        [HttpPost]
+        [Route("Search")]
+        public ApplicationMatch Post([FromBody] VisaApplicationDto value)
+        {
+           return service.Search(value);          
         }
     }
 }

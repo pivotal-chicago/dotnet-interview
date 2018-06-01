@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using FraudDomain.DTOs;
 using FraudDomain.Model;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -15,10 +16,15 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = CreateFraudulentAddress();
                 service.Save(address);
                 Assert.Equal(address, db.Addresses.Find(address.Id));
             }
+        }
+
+        private static FraudulentAddress CreateFraudulentAddress()
+        {
+            return new FraudulentAddress {City = "Bangor", State = "ME", ZIP = "09886", CaseId = "SomeCaseId"};
         }
 
         [Fact]
@@ -29,7 +35,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = CreateFraudulentAddress();
 
                 db.Addresses.Add(address);
                 db.SaveChanges();
@@ -46,11 +52,13 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address1 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address1 = CreateFraudulentAddress();
                 db.Addresses.Add(address1);
-                var address2 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+
+                var address2 = CreateFraudulentAddress();
                 db.Addresses.Add(address2);
-                var address3 = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+
+                var address3 = CreateFraudulentAddress();
                 db.Addresses.Add(address3);
                 db.SaveChanges();
 
@@ -60,7 +68,7 @@ namespace FraudDomain.Service
                 Assert.Contains(address3, fromDb);
             }
         }
-        
+
         [Fact]
         public void ShouldDeleteAnAddress()
         {
@@ -69,7 +77,7 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var address = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
+                var address = CreateFraudulentAddress();
 
                 db.Addresses.Add(address);
                 db.SaveChanges();
@@ -90,7 +98,6 @@ namespace FraudDomain.Service
             {
                 var service = new FraudulentAddressService(db);
                 service.Delete(999);
-
             }
         }
 
@@ -102,29 +109,106 @@ namespace FraudDomain.Service
             using (var db = new FraudulentAddressContext(builder.Options))
             {
                 var service = new FraudulentAddressService(db);
-                var originalAddress = new FraudulentAddress{City = "Bangor", State = "ME", ZIP="09886"};
-                
+                var originalAddress = CreateFraudulentAddress();
+
                 service.Save(originalAddress);
                 originalAddress.StreetNumber = "1234W";
                 originalAddress.Street = "Oakton St";
 
-                // Because the test database is in-memory and reads just return the same object
-                var clone = new FraudulentAddress
-                {
-                    Id = originalAddress.Id,
-                    StreetNumber = originalAddress.StreetNumber,
-                    Street = originalAddress.Street,
-                    City = originalAddress.City,
-                    State = originalAddress.State,
-                    ZIP = originalAddress.ZIP
-                };
-
                 service.Save(originalAddress);
 
                 var updated = db.Addresses.Find(originalAddress.Id);
-                Assert.Equal(updated, clone);
+                Assert.Equal(updated, originalAddress);
             }
+        }
 
+        //should be able to get the address from the endpoint : post 
+        //We need to verify that the input address is in the right format:
+        //id
+        //address object
+        //we need to compare our input address to what we get from our fraudulent address service. Service available and the get all method
+        //We need to use a search or find method on the address service for the exact match. 
+        //if there is match , we return the match object
+        //otherwise, we return the no-match object
+
+
+        [Fact]
+        public void OnApplicationSubmissionIfAddressAvailableShouldReturnMatchingResponse()
+        {
+            var visaApplication = new VisaApplicationDto
+            {
+                Street = "2222 Main St",
+                City = "Chicago",
+                State = "IL",
+                ZIP = "60602",
+                Id = "testId"
+            };
+
+
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+
+                var inDatabase = new FraudulentAddress
+                {
+                    CaseId = "SomeOtherCaseId",
+                    Street = "Main St",
+                    StreetNumber = "2222",
+                    City = "Chicago",
+                    State = "IL",
+                    ZIP = "60602"
+                };
+                service.Save(inDatabase);
+
+                var result = service.Search(visaApplication);
+
+                Assert.Equal(visaApplication.Id, result.ApplicationId);
+                Assert.Equal(eFraudStatus.MATCHED, result.FraudStatus);
+                Assert.Equal("ADDRESS", result.MatchingField);
+                Assert.Equal(inDatabase.CaseId, result.CaseId);
+            }
+        }
+
+        [Fact]
+        public void OnApplicationSubmissionIfAddressAvailableShouldReturnNoMatchResponse()
+        {
+            var visaApplication = new VisaApplicationDto
+            {
+                Street = "2222 Main St",
+                City = "Evanston",
+                State = "IL",
+                ZIP = "60602",
+                Id = "testId"
+            };
+
+
+            visaApplication.Id = "testId";
+
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+
+                var inDatabase = new FraudulentAddress
+                {
+                    Street = "Main",
+                    StreetNumber = "2222",
+                    City = "Chicago",
+                    State = "IL",
+                    ZIP = "60602",
+                    CaseId = "SomeOtherCaseId"
+                };
+
+                service.Save(inDatabase);
+
+                var result = service.Search(visaApplication);
+
+                Assert.Equal(eFraudStatus.CLEAR, result.FraudStatus);
+                // Assert.Equal(inDatabase.CaseId, result.CaseId);}
+            }
         }
     }
 }

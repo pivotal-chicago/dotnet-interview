@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FraudDomain.DTOs;
 using FraudDomain.Model;
 
 namespace FraudDomain.Service
@@ -46,6 +47,36 @@ namespace FraudDomain.Service
         public IEnumerable<FraudulentAddress> All()
         {
             return db.Addresses.ToList();
+        }
+
+        public ApplicationMatch Search(VisaApplicationDto  dto)
+        {
+            var visaApplication = VisaApplication.FromDto(dto);
+
+            var inputAddress = visaApplication.Address;
+            var matchingAddress = db.Addresses.FirstOrDefault(r => r.Street == inputAddress.Street && r.State == inputAddress.State && r.ZIP == inputAddress.ZIP && r.StreetNumber == inputAddress.StreetNumber && r.City == inputAddress.City);
+
+            if (matchingAddress != null)
+            {
+
+                var response = new ApplicationMatch
+                {
+                    ApplicationId = visaApplication.Id,
+                    FraudStatus = eFraudStatus.MATCHED,
+                    MatchingField = "ADDRESS",
+                    CaseId = matchingAddress.CaseId
+                };
+
+                return response;
+            }
+
+            var noMatch = new ApplicationMatch
+            {
+                ApplicationId = visaApplication.Id,
+                FraudStatus = eFraudStatus.CLEAR
+            };
+
+            return noMatch;
         }
     }
 }
