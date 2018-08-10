@@ -24,7 +24,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "CaseId111"
             });
             context.Add(new FraudulentAddress
             {
@@ -32,7 +33,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "CaseId222"
             });
             context.Add(new FraudulentAddress
             {
@@ -40,7 +42,8 @@ namespace FraudAPI.Database
                 Street = "Main",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+                CaseId = "CaseId333"
             });
             context.SaveChanges();
         }
