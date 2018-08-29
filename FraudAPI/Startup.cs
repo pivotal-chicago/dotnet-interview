@@ -25,6 +25,7 @@ namespace FraudAPI
 
             services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FraudData")));
             services.AddTransient<FraudulentAddressService>();
+            services.AddTransient<ApplicationValidationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,12 +7,14 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
-namespace FraudAPI
+namespace FraudDomain
 {
     public class TestStartup
     {
         public static FraudulentAddressContext FraudulentAddressContext;
+        public static IVisaValidator Validator;
 
         public TestStartup(IConfiguration configuration)
         {
@@ -27,8 +29,11 @@ namespace FraudAPI
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlite(connection));
-//            services.AddDbContext<FraudulentAddressContext>(options => options.UseInMemoryDatabase("TestDB"));
             services.AddTransient<FraudulentAddressService>();
+            var validator = new Mock<IVisaValidator>();
+            Validator = validator.Object;
+            validator.Setup(v => v.Validate(It.IsAny<VisaApplication>())).Returns("soZZZmething");
+            services.AddTransient(serviceProvider => validator.Object);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
