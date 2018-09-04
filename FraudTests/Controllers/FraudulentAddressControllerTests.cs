@@ -57,17 +57,17 @@ namespace FraudDomain.Controllers
                 Street = "Sherman Avenue",
                 City = "Evanston",
                 State = "IL",
-                ZIP = "60201"
+                ZIP = "60201",
+//                CaseId = "CaseId1234"
             };
             var json = JsonConvert.SerializeObject(fraudulentAddress);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
             await _client.PostAsync("/api/FraudulentAddress", requestBody);
 
-            var fromDb = TestStartup.FraudulentAddressContext.Addresses.First(addr => addr.StreetNumber == "1234ZZZ");
+            var fromDb = TestStartup.FraudulentAddressContext.Addresses.First(addr => addr.StreetNumber.Equals("1234ZZZ"));
             fraudulentAddress.Id = fromDb.Id; // Hack to force Equality to work.
             Assert.Equal(fraudulentAddress, fromDb);
         }
     }
-
 }

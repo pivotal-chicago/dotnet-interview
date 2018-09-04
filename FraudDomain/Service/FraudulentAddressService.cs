@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FraudDomain.Model;
 
@@ -46,6 +47,16 @@ namespace FraudDomain.Service
         public IEnumerable<FraudulentAddress> All()
         {
             return db.Addresses.ToList();
+        }
+
+        public FraudulentAddress ValidateFradulentAddress(FraudulentAddress address)
+        {
+            return db.Addresses.FirstOrDefault(fromDb => 
+                fromDb.StreetNumber.Equals(address.StreetNumber) &&
+                fromDb.Street.Equals(address.Street) &&
+                fromDb.City.Equals(address.City) &&
+                fromDb.State.Equals(address.State) &&
+                fromDb.ZIP.Equals(address.ZIP));
         }
     }
 }
