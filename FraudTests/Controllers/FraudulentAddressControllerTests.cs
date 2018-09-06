@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -17,15 +18,14 @@ namespace FraudDomain.Controllers
     public class FraudulentAddressControllerTests
     {
         private readonly ITestOutputHelper output;
-        private readonly TestServer _server;
         private readonly HttpClient _client;
 
         public FraudulentAddressControllerTests(ITestOutputHelper output)
         {
             this.output = output;
-            _server = new TestServer(new WebHostBuilder()
+            var server = new TestServer(new WebHostBuilder()
                 .UseStartup<TestStartup>());
-            _client = _server.CreateClient();
+            _client = server.CreateClient();
         }
 
         [Fact]
