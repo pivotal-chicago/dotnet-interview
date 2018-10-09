@@ -18,14 +18,14 @@ namespace FraudDomain.Model
 
             var address2 = new FraudulentAddress
             {
-                Street = "Main Street",
+                Street = "MAIN Street",
                 StreetNumber = "123",
                 City = "Chicago",
                 State = "IL",
                 ZIP = "60001"
             };
 
-            Assert.Equal(address, address2);
+            Assert.NotStrictEqual(address, address2);
 
             address2.Street = "Maple Avenue";
             Assert.NotEqual(address, address2);

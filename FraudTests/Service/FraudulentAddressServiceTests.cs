@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using FraudDomain.Model;
 using Microsoft.EntityFrameworkCore;
+using FraudDomain.Request.Model;
+using FraudDomain.Response.Model;
 using Xunit;
 
 namespace FraudDomain.Service
@@ -125,6 +127,158 @@ namespace FraudDomain.Service
                 Assert.Equal(updated, clone);
             }
 
+        }
+
+        /**
+         *  StreetNumber = "111",
+                Street = "Main",
+                City = "Evanston",
+                State = "IL",
+                ZIP = "60201",
+                CaseId = "CaseId111"
+        */
+
+        /*
+         * {
+    application-id: application id from the submitted visa application,
+    fraud-status: "MATCHED",
+    matching-field: "ADDRESS"
+    case-id: case id from the matching Fraudulent Address record
+}
+*/
+
+        [Fact]
+        public void IdentifyingFraudApplicant()
+        {
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+                // create the VisaAppliacantRequest
+
+                //creating mock data for testing ... 
+                var mockData = new FraudulentAddress{StreetNumber="111", Street ="Main",City = "Evanston", State = "IL", ZIP="60201" , CaseId="CaseId111"};
+                db.Addresses.Add(mockData);
+                db.SaveChanges();
+
+                var visaApplicantRequestAddress = new VisaApplicantRequestAddress { Street="111 Main",City="Evanston",State=USState.IL,Zip="60201" };
+
+                var id = System.Guid.NewGuid().ToString();
+
+                var visaApplicantRequest = new VisaApplicantRequest{ Id=id, Address=visaApplicantRequestAddress};
+
+
+                var expectedVisaApplicantResponse = new VisaApplicantRespsonse { ApplicationId = id, FraudStatus=FraudulentAddressService.FRAUD_MATCHED , MatchingField=FraudulentAddressService.FRAUD_FIELD, CaseId="CaseId111"  };
+
+                VisaApplicantRespsonse visaApplicantResponse =service.isApplicantFraud(visaApplicantRequest);
+                
+                Assert.NotNull(visaApplicantResponse);
+                Assert.Equal(expectedVisaApplicantResponse , visaApplicantResponse);
+               
+            }
+        }
+       
+        [Fact]
+        public void IdentifyingFraudApplicantCasesInsensitively()
+        {
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+                // create the VisaAppliacantRequest
+
+                //creating mock data for testing ... 
+                var mockData = new FraudulentAddress{StreetNumber="111", Street ="Main",City = "Evanston", State = "IL", ZIP="60201" , CaseId="CaseId111"};
+                db.Addresses.Add(mockData);
+                db.SaveChanges();
+
+                var visaApplicantRequestAddress = new VisaApplicantRequestAddress { Street="111 MAIN",City="EVANSTON",State=USState.IL,Zip="60201" };
+
+                var id = System.Guid.NewGuid().ToString();
+
+                var visaApplicantRequest = new VisaApplicantRequest{ Id=id, Address=visaApplicantRequestAddress};
+
+
+                var expectedVisaApplicantResponse = new VisaApplicantRespsonse { ApplicationId = id, FraudStatus=FraudulentAddressService.FRAUD_MATCHED , MatchingField=FraudulentAddressService.FRAUD_FIELD, CaseId="CaseId111"  };
+
+                VisaApplicantRespsonse visaApplicantResponse =service.isApplicantFraud(visaApplicantRequest);
+                
+                Assert.NotNull(visaApplicantResponse);
+                Assert.Equal(expectedVisaApplicantResponse , visaApplicantResponse);
+               
+            }
+        }
+        
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("12345")]
+        public void IsApplicationIdPresentinVisaApplication(string id)
+        {
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+          
+                var visaApplicantRequestAddress = new VisaApplicantRequestAddress { Street="111 Main",City="Evanston",State=USState.IL,Zip="60201" };
+                var visaApplicantRequest = new VisaApplicantRequest{ Id=id, Address=visaApplicantRequestAddress};
+
+
+                var expectedVisaApplicantResponse = new VisaApplicantRespsonse { ApplicationId = id };
+
+                VisaApplicantRespsonse visaApplicantResponse =service.isApplicantFraud(visaApplicantRequest);
+                
+                Assert.NotNull(visaApplicantResponse);
+                Assert.Equal(expectedVisaApplicantResponse.ApplicationId , visaApplicantResponse.ApplicationId);
+               
+            }
+        }
+
+        /**
+         * {
+    application-id: application id from the submitted visa application,
+    fraud-status: "CLEAR"
+            }
+         */
+        [Fact]
+        public void IdentifyingNonFraudApplicant()
+        {
+            var builder = new DbContextOptionsBuilder<FraudulentAddressContext>().UseInMemoryDatabase("unitTestDb");
+
+            using (var db = new FraudulentAddressContext(builder.Options))
+            {
+                var service = new FraudulentAddressService(db);
+
+               foreach (var entity in db.Addresses) {
+                    db.Addresses.Remove(entity);
+                }
+               db.SaveChanges();
+                // create the VisaAppliacantRequest
+
+                //creating mock data for testing ... 
+                var mockData = new FraudulentAddress{StreetNumber="111", Street ="Main",City = "Evanston", State = "IL", ZIP="60201" , CaseId="CaseId111"};
+                db.Addresses.Add(mockData);
+                db.SaveChanges();
+
+                var visaApplicantRequestAddress = new VisaApplicantRequestAddress { Street="111 Main",City="Evanston",State=USState.IL,Zip="60202" };
+
+                var id = System.Guid.NewGuid().ToString();
+
+                var visaApplicantRequest = new VisaApplicantRequest{ Id=id, Address=visaApplicantRequestAddress};
+
+
+                var expectedVisaApplicantResponse = new VisaApplicantRespsonse { ApplicationId = id, FraudStatus =FraudulentAddressService.FRAUD_NOT_MATCHED  };
+
+                VisaApplicantRespsonse visaApplicantResponse =service.isApplicantFraud(visaApplicantRequest);
+                
+                Assert.NotNull(visaApplicantResponse);
+                Assert.Equal(expectedVisaApplicantResponse , visaApplicantResponse);
+               
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace FraudAPI
 {
@@ -23,11 +24,11 @@ namespace FraudAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(opt => opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             services.AddDbContext<FraudulentAddressContext>(options => options.UseSqlite(connection));
-//            services.AddDbContext<FraudulentAddressContext>(options => options.UseInMemoryDatabase("TestDB"));
             services.AddTransient<FraudulentAddressService>();
         }
 
