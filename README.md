@@ -1,4 +1,3 @@
 # RETIRED
-## This code has been moved.
-## Please find this code at https://github.com/pivotal/chicago-labs-interviews
+## This code has been moved to https://github.com/pivotal/chicago-labs-interviews
 
